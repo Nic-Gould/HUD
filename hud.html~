@@ -6,7 +6,6 @@
 	<script> 
 		<src = "hud.js"> 
 	</script>
-	<link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
 <canvas width="1080" height="720" id="canvas">
