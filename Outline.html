@@ -1,0 +1,93 @@
+OpenHUD
+    .life
+    .ground
+    .air
+
+
+
+OpenHUDware
+    .car
+    .self
+    .sky
+
+
+.intro
+    OpenHUD is a project that aims to provide an AR overlay for everyday use. The HUD consists of .Widgets which are overlaying an FPV feed. Current feeds that are available are .life, .car, and .air I'm particularly interested in using several widely available ML and CV APIs to provide overlay features. OpenHUD is based on the idea of fpv drone racing to overlay live video with critical information. Rather that a virtual playground OpenHUD approaches AR as an interface to enhance our experience of life. 
+
+    OpenHUD overlays a live camera stream with additional data about what is in view based on pretrained computer vision modules such as (Google vision API, Pre trained TF models, etc). The tags that are returned are used to determine what funtions to undertake next. 
+
+    Such as:
+        user generated search
+        transition between classifier models
+        additional sensor data, or sensor filtering and analysis. 
+
+
+.UserInteraction()
+    The CV generated tags and bounding boxes are presented to the user  who can choose what further funtions or apps to launch. this can be done by making the mouse pointer gesture with your hand and clicking on the item as you see it in your goggles, or making the speach command gesture to give a verbal command. OpenHUD also uses ML to learn what you like and pre-cache information and data that's more relevant to the user. (see context ContextEngine)
+
+
+
+
+OpenHUD also uses the classification tags to transition between classifier models. For example when the object recognition model returns "person" the following things happen. 
+    - the facial recognition model is launched
+    - stance is assessed
+    - facial analysis is undertaken to provide sentiment analysis 
+    - audio is enhanced using directional mic and filtering background. 
+    - audio is also analysed
+    - if the person is known, all relevant information will be loaded. Linking to the users facebook account could provide most of these details. Along with phone contacts. The information is loaded into the info pane which is a default widget located in the right 'drawer' of the HUD (this can be changed in settings). 
+
+
+Events are also triggered for things like links, qr codes, plant ID, ect. and are relevant to the location. 
+
+
+.ContextEngine
+
+    Feed the model all inputs actions results etc. use location to inform. Landmarks, image search, map search, could use targeted marketing style algorithms to refine suggestsions based on user habits. CD cover? –Tineye->Spotify, genious, google/wikiCould we feed it a bunch of demograhic stuff? Google Ads? 
+
+    Upstream:build context trees
+        • Linguistic trees: Scrape text from wiki and main google result for each identified item, word graph, drop most common words. The remaining words give meaning and context for the search item. Cluster them.
+
+        • whether objects were interacted with or not, day , time, duration of gaze, location, 
+
+        • image classification, 
+
+
+OpenHUDwear
+    .self 
+        Like fpvcam/VR goggles but with front cam, environmental sensors. Display a customisable dashboard. Weather widget, hud apps. Additional environmental awareness such as facial recognition, mood detection, low light filters, zoom, directional mic? Track hand, gensture input, “click” on hud items
+        
+        .components
+            - 1 x LCD screen/sLS013B7DH03 Sharp Microelectronics | Optoelectronics | DigiKeyLS013B7DH03 Sharp Microelectronics | Optoelectronics | DigiKey
+            Amazon.com: Treedix 3.5 inch TFT LCD Display 320 x 480 Color Screen Module Compatible with Arduino UNO R3 Mega2560 : Electronics
+
+            - ESP32+Camera.
+            2xARDUCAM 5MP PLUS OV5642 MINI CAM @ AU$73.17
+            ESP32-S3-WROOM-1-N8 DEV BRD @ AU$22.31
+           
+            - Sensors
+            Gyro - $10
+
+
+    .car
+        Addional envinmental awareness for road safety. Sensor/360cam sensor data integrated into hud. 
+        
+        .components
+
+    .sky
+        This was my first DIY drone. Built on the cheap using an untested flight controller I banged together out of a couple of dev boards and the ARDUPILOT code.
+        
+        .components
+            ESP32-S3-WROOM-1-N8 DEV BRD AU$22.31
+            NUCLEO-144 STM32F767 DEV EVAL BD AU$36.39
+            ARDUCAM 5MP PLUS OV5642 MINI CAM AU$73.17
+            GPS MODULE W/ ANTENNA (NEO-M8N) AU$54.88
+            MPU-9250 GY-9250 9-axis gyro AU $11.79
+            RS2205 2205 2300KV CW CCW Brushless Motor With LittleBee 20A/30A BLHeli_S ESC for FPV RC QAV250 X210 Racing Drone Multicopter AU $63.25x1
+            Youme 3S Lipo Battery 11.1V 5200mah 4500mah 3300mah 6500mah 50C 60C with T Plug XT60 XT90 For RC Drone Car Monster Boat Airplane AU $37.90x1
+
+            
+        
+
+Due to the computationl costs, sliding windows are used only when we are detecting a single object class with a fixed aspect ratio. For example, the HOG + SVM or HAAR based face detector in OpenCV uses a sliding window approach. Interesting to note, the famous Viola Jones face detection uses sliding windows. In case of a face detector, the complexity is manageable because only square bounding boxes are evaluated at different scales.
+
+
