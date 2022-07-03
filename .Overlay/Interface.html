@@ -3,24 +3,32 @@
 	<meta charset="utf-8" />
 	<title>HUD</title>
 	<script> 
-		<src = "hud.js"> 
+		//<src = "hud.js"> *****************************************************************************************
 	</script>
 	<link rel="stylesheet" href="styles.css"/>
 </head>
 <body>
-<canvas width="1080" height="720" id="myCanvas">
-	<video src="192.165.1.1" autoplay width="myCanvas.width" height="myCanvas.height" preload="auto"></video>
-	</canvas>
-<h1>"vision enhanced"</h1>
+
+	<canvas width="1080" height="720" id="myCanvas">
+		<video src="192.165.1.1" autoplay width="myCanvas.width" height="myCanvas.height" preload="auto"></video>
+		</canvas>
+	<h1>"vision enhanced"</h1>
+
 <script>
 		var c = document.getElementById("myCanvas");
 		var ctx = c.getContext("2d");
-		ctx.fillStyle = "red";
-		ctx.fillRect(20, 20, 75, 50);
-		//Turn transparency on
+			//Turn transparency on
 		ctx.globalAlpha = 0.2;
+		
+		//draw a panel
+		pstartx = 
+		pstarty = 
+		pendx = 
+		pendy = 
+
 		ctx.fillStyle = "blue";
 		ctx.fillRect(50, 50, 75, 50);
+		
 		ctx.fillStyle = "green";
 		ctx.fillRect(80, 80, 75, 50);
 </script>

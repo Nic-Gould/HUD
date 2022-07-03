@@ -8,6 +8,7 @@ onmouseclick(){
 		menu.load())
 }
 
+
 glass.oncreate(x,y){
 		
 		HUD.canvas.drawrect(x,y,x-getmousepointerx, y - getmousepointer.y);
@@ -17,5 +18,5 @@ glass.oncreate(x,y){
 computer vision keyboard
 
 okay so i guess anything like this will be implemented in python
-web stack can be used for drawing the display i guess. 
+web stack can be used for drawing the display i guess. But also probably mayble like pyqt or whatever.
 //
