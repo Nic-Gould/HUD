@@ -1,0 +1,39 @@
+.panel {
+	background: rgba(255, 255, 255, 0.2);
+	border-radius: 16;
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+	backdrop-filter: blur(5px);
+	-webkit-backdrop-filter: blur(5px);
+	border: 1px solid rgba(255, 255, 255, 0.3);
+}
+body {
+//background-color: rgb(177, 238, 247);
+	}
+
+.leftPanel {
+	background: rgba(255, 255, 255, 0.2);
+	border-radius: 16;
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+	backdrop-filter: blur(5px);
+	-webkit-backdrop-filter: blur(5px);
+	border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+rect {
+	/* doesn't work in IE/ older Edge */
+	transform: translate(295px, 115px);
+  }
+  rect {
+	/* doesn't work in IE/ early Edge */
+	transform: rotate(45deg);
+  }
+  rect {
+	/* doesn't work in IE/ early Edge */
+   transform: scale(2, 1.5);
+ }
+
+ #MyRect:hover {
+	stroke: black;
+	fill: blue;
+  }
+ 
