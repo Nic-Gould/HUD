@@ -59,16 +59,18 @@ Like fpvcam/VR goggles but with front cam, environmental sensors. Display a cust
                 • MPU-9250 GY-9250 9-axis gyro AU $11.79
 
 ##	.car
-Addional envinmental awareness for road safety. There are plenty of existing vehicle HUDs that demostrate this idea. Sensor/360cam sensor data integrated into hud. Basically just feeds the camera to the goggles / image processing unit. Could include local processing. Final version replaces the car windscreen with an LCD running openHUD.If the car is self driving (this can be done pretty easily at a non-commercial level using ArduPilot(ROVER) as a test case), then additional functionality can be unlocked such as landmark info and context pane. If the car does not use self-driving capabilities, access to apps and distracting content must be locked. 
+Addional envinmental awareness for road safety. There are plenty of existing vehicle HUDs that demostrate this idea. Sensor/360cam sensor data integrated into hud. Basically just feeds the camera to the goggles / image processing unit. Could include local processing. Final version replaces the car windscreen with an LCD running OpenHUD.If the car is self driving (this can be done pretty easily at a non-commercial level using ArduPilot(ROVER) as a test case), then additional functionality can be unlocked such as landmark info and context pane. If the car does not use self-driving capabilities, access to apps and distracting content must be locked. 
 
 
-![alt text](./images/OpenHUD.car "OpenHUD.self")
+![alt text](./images/OpenHUD.car "OpenHUD.car")
 
 
 ###		components
                 • 4xARDUCAM 5MP PLUS OV5642 MINI CAM @ AU$73.17
                 • ESP32-S3-WROOM-1-N8 DEV BRD @ AU$22.31
                 • MPU-9250 GY-9250 9-axis gyro AU $11.79
+
+For details on an opensource electric buggy with self-driving capabilities check out my other repo. Don't drive this thing on public roads... Control system is again, based on drones. See below for some idea.
 
 ## .sky
 This was my first DIY drone. Built on the cheap using an untested flight controller I banged together out of a couple of dev boards and the ARDUPILOT code.
@@ -83,11 +85,11 @@ This was my first DIY drone. Built on the cheap using an untested flight control
 
 	base
     • F450 Flame Wheel KIT Drone With Camera 450 Frame For RC MK MWC 4 Axis RC Multicopter Quadcopter Heli Multi-Rotor with Land Gear AU$22.31
-    • AU $30.68x1RS2205 2205 2300KV CW CCW Brushless Motor With LittleBee 20A/30A BLHeli_S ESC for FPV RC QAV250 X210 Racing Drone Multicopter AU $63.25x1
+    • 2205 2300KV CW CCW Brushless Motor With LittleBee 20A/30A BLHeli_S ESC for FPV RC QAV250 X210 Racing Drone Multicopter AU $63.25x1
     • Youme 3S Lipo Battery 11.1V 5200mah 4500mah 3300mah 6500mah 50C 60C with T Plug XT60 XT90 For RC Drone Car Monster Boat Airplane AU $37.90x1 
 
 ### .construction()
-               
+               *add references*
 ESP to FC Wiring
 Wiring is very simple, and similar for all devices when connecting to the Pixhawk TELEM1/2 ports. You can use 2.54mm pitch header connectors or solder the PX4 telemetry cables directly to the board.
 
