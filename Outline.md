@@ -16,19 +16,19 @@ OpenHUD is a project that aims to provide an AR overlay for everyday use. The HU
 * .drive, and 
 * .fly 
 
-I'm particularly interested in using several widely available ML and CV APIs to provide overlay features. OpenHUD is based on the idea of fpv drone racing to overlay live video with critical information. Rather than using VR/AR for game-like interactions, OpenHUD approaches AR as an interface to enhance our experience of life. 
+OpenHUDware is open source development hardware for OpenHUD application. 
+* .self
+* .car 
+* .sky 
 
-
-OpenHUD overlays a live camera stream with additional data about what is in view based on pretrained computer vision modules such as (Google vision API, Pre trained TF models, etc). The tags that are returned are used to determine what funtions to undertake next. 
-
-Such as:
+I'm particularly interested in using several widely available ML and CV APIs to provide overlay features. OpenHUD is based on the idea of fpv drone racing to overlay live video with critical information. Rather than using VR/AR for game-like interactions, OpenHUD approaches AR as an interface to enhance our experience of life. OpenHUD overlays a live camera stream with additional data about what is in view based on pretrained computer vision modules such as (Google vision API, Pre trained TF models, etc). The tags that are returned are used to determine what funtions to undertake next. Such as:
 * user generated search
 * transition between classifier models
 * additional sensor data, or sensor filtering and analysis. 
 
+Here's an example of the OpenHUD.self overlay with the results pane and app drawer open. In this example the facial recognition classifier has loaded information from the user's linked facebook account. There is also classifier data for sentiment analysis. Suggested actions are also presented to the user. 
 
-## .UserInteraction()
-The CV generated tags and bounding boxes are presented to the user  who can choose what further funtions or apps to launch. this can be done by making the mouse pointer gesture with your hand and clicking on the item as you see it in your goggles, or making the speach command gesture to give a verbal command. OpenHUD also uses ML to learn what you like and pre-cache information and data that's more relevant to the user. (see context ContextEngine)
+![alt text](./images/OpenHUD.self "OpenHUD.self mockup")
 
 OpenHUD also uses the classification tags to transition between classifier models. For example when the object recognition model returns "person" the following things happen. 
 * the facial recognition model is launched
@@ -40,6 +40,9 @@ OpenHUD also uses the classification tags to transition between classifier model
 * Events are also triggered for things like links, qr codes, plant ID, ect. and are relevant to the location. 
 
 
+## .UserInteraction()
+The CV generated tags and bounding boxes are presented to the user  who can choose what further funtions or apps to launch. this can be done by making the mouse pointer gesture with your hand and clicking on the item as you see it in your goggles, or making the speach command gesture to give a verbal command. OpenHUD also uses ML to learn what you like and pre-cache information and data that's more relevant to the user. (see context ContextEngine)
+
 ## .ContextEngine 
 *move to separate project*
 
@@ -49,16 +52,20 @@ Feed the model all inputs actions results etc. use location to inform. Landmarks
 ## 	.self
 Like fpvcam/VR goggles but with front cam, environmental sensors. Display a customisable dashboard. Weather widget, hud apps. Additional environmental awareness such as facial recognition, mood detection, low light filters, zoom, directional mic? Track hand, gensture input, on hud items
        
-###		.components
+###		components
                 • 2 x LCD screen/sLS013B7DH03 DigiKey or Amazon.com: Treedix 3.5 inch TFT LCD Display 320 x 480
                 • 2xARDUCAM 5MP PLUS OV5642 MINI CAM @ AU$73.17
                 • ESP32-S3-WROOM-1-N8 DEV BRD @ AU$22.31
                 • MPU-9250 GY-9250 9-axis gyro AU $11.79
 
 ##	.car
-Addional envinmental awareness for road safety. There are plenty of existing vehicle HUDs that demostrate this idea. Sensor/360cam sensor data integrated into hud. Basically just feeds the camera to the goggles / image processing unit. Could include local processing.
-       
-###		.components
+Addional envinmental awareness for road safety. There are plenty of existing vehicle HUDs that demostrate this idea. Sensor/360cam sensor data integrated into hud. Basically just feeds the camera to the goggles / image processing unit. Could include local processing. Final version replaces the car windscreen with an LCD running openHUD.If the car is self driving (this can be done pretty easily at a non-commercial level using ArduPilot(ROVER) as a test case), then additional functionality can be unlocked such as landmark info and context pane. If the car does not use self-driving capabilities, access to apps and distracting content must be locked. 
+
+
+![alt text](./images/OpenHUD.car "OpenHUD.self")
+
+
+###		components
                 • 4xARDUCAM 5MP PLUS OV5642 MINI CAM @ AU$73.17
                 • ESP32-S3-WROOM-1-N8 DEV BRD @ AU$22.31
                 • MPU-9250 GY-9250 9-axis gyro AU $11.79
@@ -66,7 +73,7 @@ Addional envinmental awareness for road safety. There are plenty of existing veh
 ## .sky
 This was my first DIY drone. Built on the cheap using an untested flight controller I banged together out of a couple of dev boards and the ARDUPILOT code.
        
-### .components
+### components
 	brain
     ▪ ESP32-S3-WROOM-1-N8 DEV BRD AU$22.31
     ▪ NUCLEO-144 STM32F767 DEV EVAL BD AU$36.39
