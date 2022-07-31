@@ -2,10 +2,29 @@
 <head>
 	<meta charset="utf-8" />
 	<title>OpenHUD</title>
+	<style>
+		html, body {
+		  margin: 0; 
+		  padding: 0; 
+		  overflow: hidden
+		}
+		svg {
+		  position: fixed;
+		  top:0;
+		  left:0;
+		  height:100%;
+		  width:100%;
+		}
+	  </style>
+	  <link rel="stylesheet" href="test.css"/>
 </head>
 
 <body>
-	<svg id="svgCanvas" xmlns="http://www.w3.org/2000/svg" version="1.1">
+	<video autoplay muted loop id="myVideo">
+		<source src="https://www.w3schools.com/howto/rain.mp4" type="video/mp4">
+	</video>
+	
+	<svg id="svgCanvas" xmlns="http://www.w3.org/2000/svg" version="1.1" >
 			
 		<defs>
 			<!-- Filter declaration -->
@@ -30,51 +49,80 @@
 				</feMerge>
 			</filter>
 		</defs>
-<!-- This is the main panel class. try this as OOP  
-<video src="https://www.w3schools.com/howto/rain.mp4" type="video/mp4"></video> 
--->
 
+
+		<!-- This is the main panel class. try this as OOP  -->
 		<rect class="panel" id="leftPanel" 
+			height="100%"
+			width="20%"
 			stroke="blue" 
 			stroke-opacity="0.5"
 			stroke-linecap="round" 
 			fill="blue" 
 			fill-opacity="0.1" 
 			filter="url(#MyFilter)" 
-			onclick="slidePanel()">
+			state="open"
+			onclick="slideLeft(this)"
+			>
+		</rect>
+		<rect class="panel" id="rightPanel" 
+			height="100%"
+			width="20%"
+			x="80%"
+			y="0"
+			stroke="blue" 
+			stroke-opacity="0.5"
+			stroke-linecap="round" 
+			fill="blue" 
+			fill-opacity="0.1" 
+			filter="url(#MyFilter)" 
+			state="open"
+			onclick="slideRight(this)"
+			>
 		</rect>
 	</svg>
+
 	<script type="text/javascript">
-		var leftPanel = document.getElementById("leftPanel");
-		
-		function setCanvas(){
-			var svgCanvas = document.getElementById("svgCanvas");
-			var screenHeight=screen.height;
-			var screenWidth=screen.width;
-			svgCanvas.setAttribute('height',screenHeight);
-			svgCanvas.setAttribute('width',screenWidth);
-			svgCanvas.setAttribute('x','0');
-			svgCanvas.setAttribute('y','0');
-		}
-				
-		function drawPanel(){
-			var panelHeight=screen.height;
-			var panelWidth=screen.width/5;
-			leftPanel.setAttribute('height',panelHeight);
-			leftPanel.setAttribute('width', panelWidth);
-			leftPanel.setAttribute('x', '-100k');
-			leftPanel.setAttribute('y', '0');
-			leftPanel.setAttribute('rx', '10');
-			leftPanel.setAttribute('ry', '10');
-		}
+		let rstate = 'open';
+		let lstate = 'open';						
 	
-		function slidePanel(){
-			var	panelX= leftPanel.getAttribute('x');
-								
+		function slideLeft(panel){
+			if (lstate=='open'){
+			panel.setAttribute('width','5%');	
+			lstate = 'closed';
+			console.log(lstate)
+			return
+			}
+		if (lstate=='closed'){
+			panel.setAttribute('width','20%');	
+			lstate = 'open';
+			console.log(lstate)
+			return
+			}						
+		}
+		
+		
+		function slideRight(panel){
+		// can't read attributes unless it's passed as a dom element. Can't set attributes unless passing the svg object directly. WTF?	
+		if (rstate=='open'){
+			panel.setAttribute('width','5%');	
+			panel.setAttribute('x','95%');
+			rstate = 'closed';
+			console.log(rstate)
+			return
+			}
+		if (rstate=='closed'){
+			panel.setAttribute('width','20%');	
+			panel.setAttribute('x','80%');
+			rstate = 'open';
+			console.log(rstate)
+			return
+			}
+			
+							
 		}				
-  	 setCanvas();
-	 drawPanel();
-	 </script>
+
+  	</script>
 </body>
 
 </html>
