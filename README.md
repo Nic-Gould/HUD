@@ -14,7 +14,7 @@ OpenHUDware is open source development hardware for OpenHUD application.
 
 ## .intro
 
-OpenHUD is based on the idea of fpv drone racing to overlay live video with critical information. Rather than using VR/AR for game-like interactions, OpenHUD approaches AR as an interface to enhance our experience of life. OpenHUD overlays a live camera stream with additional data about what is in view based on pretrained computer vision modules such as (Google vision API, Pre trained TF models, etc). This project investigated several widely available ML and CV APIs to provide overlay features. The tags that are returned are used to determine what funtions to undertake next. Such as:
+OpenHUD is based on the idea of fpv drone racing to overlay live video with critical information. Rather than using VR/AR for game-like interactions, OpenHUD approaches AR as an interface to enhance our experience of life. OpenHUD overlays a live camera stream with additional data about what is in view based on pretrained computer vision modules such as (Google vision API, Pre trained TF models, etc). See the [list of models](./vision/README.md). This project investigated several widely available ML and CV APIs to provide overlay features. The tags that are returned are used to determine what funtions to undertake next. Such as:
 * user generated search
 * transition between classifier models
 * additional sensor data, or sensor filtering and analysis. 
