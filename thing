@@ -1,2 +1,6 @@
 add ffts to codec
 
+## .ContextEngine 
+*move to separate project*
+
+Feed the model all inputs actions results etc. use location to inform. Landmarks, image search, map search, could use targeted marketing style algorithms to refine suggestsions based on user habits. CD cover?  Linguistic trees: Scrape text from wiki and main google result for each identified item, word graph, drop most common words. The remaining words give meaning and context for the search item. Cluster them.
