@@ -54,6 +54,11 @@ https://github.com/tensorflow/examples/tree/master/lite/examples/gesture_classif
 * Google Cloud Vision https://cloud.google.com/vision/docs/features-list
 
 
+CHAT GPT EXISTS NOW. 
+## .ContextEngine 
+
+
+Feed the model all inputs actions results etc. use location to inform. Landmarks, image search, map search, could use targeted marketing style algorithms to refine suggestsions based on user habits. CD cover?  Linguistic trees: Scrape text from wiki and main google result for each identified item, word graph, drop most common words. The remaining words give meaning and context for the search item. Cluster them.
 # JARVIS
 * BERT Question and Answer
 https://www.tensorflow.org/lite/examples/bert_qa/overview
