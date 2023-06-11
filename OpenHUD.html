@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<title>OpenHUD</title>
+	<style>
+		html, body {
+		  margin: 0; 
+		  padding: 0; 
+		  overflow: hidden
+		}
+		 #myVideo{
+			  position: fixed;
+			  top:0;
+			  left:0;
+			 
+			  width:100vw;
+		}
+		#svgCanvas {
+		  position: absolute;
+		  top:0;
+		  left:0;
+		  height:100%;
+		  width:100%;
+		  filter: url(#MyFilter);
+        }
+    
+	
+        .dial{
+            stroke:black;
+            stroke-opacity: 0.5;
+            stroke-linecap: round;
+            fill: black;
+            fill-opacity: 0.2;
+		
+        }
+		.hand {
+            stroke: yellow;
+            stroke-width: 2;
+            stroke-linecap: round;
+			
+        }
+       
+	  </style>
+	  <link rel="stylesheet" href="test.css"/>
+</head>
+
+<body>
+	<video autoplay muted loop id="myVideo" >
+		<source src="https://www.w3schools.com/howto/rain.mp4" type="video/mp4">   
+      <!--   dummy video. Video will be connected to FPV video stream from drone (ESP32CAM). 
+        video can be processed via object detection framework prior to diplay.(currently YoloV5 - hopehopfully eyern when complete)  -->
+        
+	</video>
+	
+	<svg id="svgCanvas" xmlns="http://www.w3.org/2000/svg" version="1.1" >
+			
+		<defs>
+			<!-- Filter declaration -->
+			<filter id="MyFilter" filterUnits="objectBoundingBox"
+				x="0" y="0"	>
+
+				<!-- offsetBlur -->
+				<feGaussianBlur in="SourceAlpha" stdDeviation="4" result="blur"/>
+				<feOffset in="blur" dx="4" dy="4" result="offsetBlur"/>
+
+				<!-- litPaint -->
+				<feSpecularLighting in="blur" surfaceScale="5" specularConstant=".75" specularExponent="20" lighting-color="#bbbbbb" result="specOut">
+					<fePointLight x="-5000" y="-10000" z="20000"/>
+				</feSpecularLighting>
+				<feComposite in="specOut" in2="SourceAlpha" operator="in" result="specOut"/>
+				<feComposite in="SourceGraphic" in2="specOut" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="litPaint"/>
+
+				<!-- merge offsetBlur + litPaint -->
+				<feMerge>
+					<feMergeNode in="offsetBlur"/>
+					<feMergeNode in="litPaint"/>
+				</feMerge>
+			</filter>
+            <filter id="dialFilter" filterUnits="objectBoundingBox"
+            x="-50%" y="-50%" width="100%"	height="100%">
+
+            <!-- offsetBlur -->
+            <feGaussianBlur in="SourceAlpha" stdDeviation="4" result="blur"/>
+            <feOffset in="blur" dx="4" dy="4" result="offsetBlur"/>
+
+            <!-- litPaint -->
+            <feSpecularLighting in="blur" surfaceScale="5" specularConstant=".75" specularExponent="20" lighting-color="#bbbbbb" result="specOut">
+                <fePointLight x="-5000" y="-10000" z="20000"/>
+            </feSpecularLighting>
+            <feComposite in="specOut" in2="SourceAlpha" operator="in" result="specOut"/>
+            <feComposite in="SourceGraphic" in2="specOut" operator="arithmetic" k1="0" k2="1" k3="1" k4="0" result="litPaint"/>
+
+            <!-- merge offsetBlur + litPaint -->
+            <feMerge>
+                <feMergeNode in="offsetBlur"/>
+                <feMergeNode in="litPaint"/>
+            </feMerge>
+        </filter>
+           
+		</defs>
+
+
+		<!-- This is the main panel class.  -->
+		<rect class="panel" id="leftPanel" 
+			x="0"
+			y="0"	
+			height="100%"
+			width="20%"
+			
+			stroke="blue" 
+			stroke-opacity="0.5"
+			stroke-linecap="round" 
+			fill="blue" 
+			fill-opacity="0.1" 
+			state="open"
+			onclick="slideLeft(this)"
+			>
+		</rect>
+		<rect class="panel" id="rightPanel" 
+			x="80%"
+			y="0"
+			height="100%"
+			width="20%"
+			
+			stroke="blue" 
+			stroke-opacity="0.5"
+			stroke-linecap="round" 
+			fill="blue" 
+			fill-opacity="0.1" 
+			state="open"
+			onclick="slideRight(this)"
+			>
+		</rect>
+	
+		<!--define widgets here for now, -->
+        <circle class="pointer" id="blip" 
+            cx="0"
+            cy="0"	
+            r="0"
+            stroke="purple" 
+            stroke-opacity="0.5"
+            stroke-linecap="round" 
+            fill="blue" 
+            fill-opacity="0.1" 
+            >
+            <animate attributeName = "r", start="clickEvent", values="0,50,0", dur="1s"/>
+        </circle>
+    </svg>
+
+<script type="text/javascript">
+    "use strict"
+    let rstate = "open";
+    let lstate = "open";						
+
+    function slideLeft(panel){
+        if (umode === Umode.fly) {return};
+        if (lstate=="open"){
+        panel.setAttribute("width","5%");	
+        lstate = "closed";
+        console.log(lstate)
+        return
+        }
+    if (lstate=="closed"){
+        panel.setAttribute("width","20%");	
+        lstate = "open";
+        console.log(lstate)
+        return
+        }						
+    }
+    
+    
+    function slideRight(panel){
+    
+    if (umode === Umode.fly) {return};
+    if (rstate=="open"){
+        panel.setAttribute("width","5%");	
+        panel.setAttribute("x","95%");
+        rstate = "closed";
+        console.log(rstate)
+        return
+        }
+    if (rstate=="closed"){
+        panel.setAttribute("width","20%");	
+        panel.setAttribute("x","80%");
+        rstate = "open";
+        console.log(rstate)
+        return
+        }
+        
+                        
+    }
+    
+    //broken
+    class Umode {
+        static fly; //i think these are default null/undined as they all evaluate to the samne thing.
+        static drive;
+        static life;
+    }
+
+    let umode = "life";
+    
+    class overlays{
+        constructor(){
+            this.update();
+    
+        }
+        update(){
+            
+            this.panel_width = window.innerWidth /5;
+            this.panel_height = window.innerHeight;
+            this.vspacing = this.panel_height/3;
+
+            this.leftyp=document.getElementById("leftPanel");
+            this.leftyp_x = 0;
+            //this.leftyp_centre = this.leftyp_x+this.panel_width/2;
+            this.leftyp.setAttribute("x","0");
+            this.leftyp.setAttribute("y","0");
+            this.leftyp.setAttribute("width",this.panel_width);	//both panels should be locked open during flight and have the same width.
+            this.leftyp.setAttribute("height",this.panel_height);
+            
+            this.rightyp=document.getElementById("rightPanel");
+            this.rightyp_x = window.innerWidth/5*4;
+            //this.rightyp_centre = this.rightyp_x+this.panel_width/2;
+            this.rightyp.setAttribute("x",this.rightyp_x);
+            this.rightyp.setAttribute("y","0");
+            this.rightyp.setAttribute("width",this.panel_width);	//both panels should be locked open during flight and have the same width.
+            this.rightyp.setAttribute("height",this.panel_height);
+            
+            
+               
+            
+            if (this.vspacing < this.panel_width){
+                this.widget_size = this.vspacing;
+            }else{ 
+                this.widget_size = this.panel_width;
+            }
+            this.pan = parseInt(-this.widget_size /2);
+          
+        }
+
+    }
+    let overlay = new overlays();
+    
+    if (umode ==="fly"){    
+        class dials{
+            constructor(bucket, overlay){
+                for (let dial of bucket){             
+                    if (dial.position==="top"){
+                        this.y = (overlay.vspacing * 0) + (overlay.vspacing - overlay.widget_size)/2;
+                    }else if (dial.position === "middle"){
+                        this.y = (overlay.vspacing * 1) + (overlay.vspacing - overlay.widget_size)/2;
+                    }else if (dial.position=== "bottom"){
+                        this.y = (overlay.vspacing * 2) + (overlay.vspacing - overlay.widget_size)/2;
+                    }else{
+                        console.error("This dial is fucked mate: choose a position - top, middle, or bottom")
+                    };
+                        
+                    if (dial.panel==="left"){
+                        this.x = overlay.leftyp_x + (overlay.panel_width - overlay.widget_size)/2;
+                    } else if (dial.panel==="right"){
+                        this.x = overlay.rightyp_x + (overlay.panel_width - overlay.widget_size)/2;
+                    } else {
+                        console.error("This dial is fucked mate: choose a panel. Left or right?");
+                    }
+                
+                
+                    this.elem = document.createElementNS("http://www.w3.org/2000/svg","svg")    ;
+                    this.elem.setAttribute("id",dial.id) ;
+                    this.elem.setAttribute("class", "dial") ;      
+                    this.elem.setAttribute("x", this.x)  ;
+                    this.elem.setAttribute("y", this.y)  ;
+                    this.elem.setAttribute("width", overlay.widget_size )           ;
+                    this.elem.setAttribute("height", overlay.widget_size)           ;
+                    
+                                    
+                    this.strung = overlay.pan.toString() +","+ overlay.pan.toString()+ "," + overlay.widget_size.toString() + "," + overlay.widget_size.toString();
+                    this.elem.setAttribute("viewBox", this.strung); 
+                    this.can = document.getElementById("svgCanvas");
+                    this.can.appendChild(this.elem);
+
+                    this.face = document.createElementNS("http://www.w3.org/2000/svg","circle");
+                    this.face.setAttribute("cx","0");
+                    this.face.setAttribute("cy","0");
+                    let dial_r = overlay.widget_size * 0.4;
+                    this.face.setAttribute("r" , dial_r);
+                    this.elem.appendChild(this.face);
+                
+
+                    this.hand = document.createElementNS("http://www.w3.org/2000/svg","line");
+                    this.hand.setAttribute("class","hand");
+                    this.hand.setAttribute("x1","0");
+                    this.hand.setAttribute("y1","0");
+                    this.hand.setAttribute("x2","0");
+                    this.hand.setAttribute("y2",-dial_r);
+                    this.elem.appendChild(this.hand);
+                    
+                    if (dial.start_loc === 0){
+                    }else{
+                        let strang = "rotate("+dial.start_loc+")";
+                        this.hand.setAttribute("transform", strang);
+                    }
+                }
+            }
+            update_hands(data){
+                let bucket = document.getElementsByClassName("dial");
+                for (let i=0;i<6;i++){
+                    let dial = bucket[i];
+                    let hand = dial.children[1];
+                    let strang = "rotate(" + data[i] + ")";     //assumes I'm smart enough to send data in the right order instead of using JSON. fast though.
+                        hand.setAttribute("transform", strang);
+                }
+            }
+        };
+
+
+
+    // loop through all dial objects and set they attributes
+    const dial_1 = {id:"alitude", position:"top", panel:"left", start_loc:"-180"};
+        const dial_2 = {id:"heading", position:"middle", panel:"left", start_loc:"0"};
+        const dial_3 = {id:"velocity", position:"bottom", panel:"left", start_loc:"-180"};
+        const dial_4 = {id:"yaw", position:"top", panel:"right", start_loc:"0"};
+        const dial_5 = {id:"pitch", position:"middle", panel:"right", start_loc:"0"};
+        const dial_6 = {id:"roll", position:"bottom", panel:"right", start_loc:"0"};
+        const bucket = [dial_1, dial_2, dial_3, dial_4, dial_5, dial_6];
+        
+        
+        let dialz = new dials(bucket, overlay);
+        
+        let data = [90,90,90,90,90,90]; //test data
+        // This data will be passed in from the MPU/flight controller if the headset is attached to the drone, 
+        // or passed from the simulator 
+        dialz.update_hands(data);
+    }    
+        
+
+    var ws = new WebSocket("ws://localhost:8989");
+				
+        ws.onopen = function() {
+            
+            // Web Socket is connected, send data using send()
+            ws.send([100,100]);
+           // alert("Message is sent...");
+        };
+            
+        ws.onmessage = function (evt) { 
+            var msg = JSON.parse(evt.data);
+            console.log(msg)
+            switch (msg.EVENT){
+                case "CLICK":
+                    handy(msg.x,msg.y);
+                    break;
+                case "DIALS":
+                    data = msg.data; // This data will be passed in from the MPU/flight controller if the headset is attached to the drone, 
+                    dialz.update_hands(data);
+            }
+        };
+        
+        
+function handy(x,y){
+    let buttonAtPoint = document.elementFromPoint(x, y);
+    const clickEvent = new MouseEvent('click', {
+        view: window,
+        screenX: x,
+        screenY: y,
+    });
+    buttonAtPoint.dispatchEvent(clickEvent);
+    
+    let blip = document.getElementById("blip");
+    blip.setAttribute("cx",x);
+	blip.setAttribute("cy",y);
+    
+  
+}
+
+    
+ 
+
+
+    
+           
+</script>
+</body>
+</html>
