@@ -3,7 +3,7 @@ from websockets.server import serve
 
 import cv2
 from ultralytics import YOLO
-import handy
+import vision.handy as handy
 import json
 
 video_path = "192.168.1.109:81/stream"  # default esp32cam output for testing

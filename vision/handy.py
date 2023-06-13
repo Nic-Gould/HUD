@@ -3,6 +3,7 @@ import mediapipe as mp
 import time
 import math
 import numpy as np
+import json
 
 
  
@@ -89,6 +90,31 @@ class handDetector():
  
         return length, img, [x1, y1, x2, y2, cx, cy]
 
-        
+      
 
+class buffers:
+    def __init__(self) -> None:
+        self.click=0
+        self.stream=0
+        self.labels=0
+    def send_click(self,lineInfo):
+        self.buffer=json.dumps({"EVENT":"CLICK", "x": lineInfo[4],"y": lineInfo[5]})
+    
+buffer = buffers()        
+
+def hands(detector, frame):
+    fingers=[0,0,0,0,0]
+    img = detector.findHands(frame)
+    lmList = detector.findPosition(img, handNo=1)
+    
+    if lmList != ([],):
+        fingers = detector.fingersUp()
+
+        # Click mouse if distance between Index and middle fingers is short
+        if fingers[1] == 1 and fingers[2] == 1:
+            length, img, lineInfo = detector.findDistance(8, 12, img)           
+            if length < 40:
+                #cv2.circle(img, (lineInfo[4], lineInfo[5]), 15, (0, 255, 0), cv2.FILLED)
+                buffer.send_click([lineInfo])
+    #print("hands")
 

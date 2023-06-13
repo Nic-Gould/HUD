@@ -56,3 +56,10 @@ An opensource electric buggy with self-driving capabilities. Check out my [other
 ## OpenHUDware.sky
 This was my first DIY drone. Built on the cheap using an untested flight controller I banged together out of a couple of dev boards and the ARDUPILOT code. Repo [here](https://github.com/Nic-Gould/Drone)
        
+#Status
+detection is working, users can "click" on items in the HUD by extending
+their index and middle finger simultaneously, 
+click event is detected using CV and sent via websocket to HUD.
+* The UI consists of an html file in /overlays (will probably move to Tauri)
+* object detection is done in vision/vision.py
+* /vision/bridge.py initialises the websocket server to send events to the overlay.
